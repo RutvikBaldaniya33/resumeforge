@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>ResumeForge Logo & Favicon Generator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f172a;
+      color: #f1f5f9;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      gap: 40px;
+    }
+    h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    h1 span { color: #38bdf8; }
+    .subtitle { color: #64748b; font-size: 14px; margin-top: 6px; }
+
+    .previews {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .preview-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .preview-item canvas {
+      border-radius: calc(var(--r) * 1px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .size-label {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .download-btn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .download-btn:hover { background: #1d4ed8; }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-big {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 13px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+      box-shadow: 0 4px 16px rgba(37,99,235,0.4);
+    }
+    .btn-big:hover { background: #1d4ed8; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      color: #94a3b8;
+      border: 1px solid #334155;
+      padding: 13px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .btn-ghost:hover { border-color: #2563eb; color: #f1f5f9; }
+
+    .code-block {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: #94a3b8;
+      max-width: 600px;
+      width: 100%;
+      line-height: 1.8;
+    }
+    .code-block .tag { color: #60a5fa; }
+    .code-block .attr { color: #34d399; }
+    .code-block .val { color: #fbbf24; }
+    .note {
+      font-size: 12.5px;
+      color: #475569;
+      max-width: 540px;
+      text-align: center;
+      line-height: 1.65;
+    }
+    .logo-on-dark, .logo-on-light {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 28px;
+      border-radius: 12px;
+      border: 1px solid #334155;
+    }
+    .logo-on-light { background: #f8fafc; color: #0f172a; border-color: #e2e8f0; }
+    .logo-name { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+    .logo-on-light .logo-name { color: #0f172a; }
+    .logo-previews {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #475569;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div style="text-align:center">
+    <h1>⬡ <span>ResumeForge</span> Favicon & Logo</h1>
+    <p class="subtitle">Generated favicons at all required sizes — download individually or all at once</p>
+  </div>
+
+  <!-- Size previews -->
+  <div>
+    <div class="section-title">PNG Exports</div>
+    <div class="previews" id="previews"></div>
+  </div>
+
+  <!-- Logo in context -->
+  <div>
+    <div class="section-title">Logo in Context</div>
+    <div class="logo-previews">
+      <div class="logo-on-dark" id="logoDark">
+        <canvas id="logoIconDark" width="36" height="36" style="border-radius:9px"></canvas>
+        <span class="logo-name">ResumeForge</span>
+      </div>
+      <div class="logo-on-light" id="logoLight">
+        <canvas id="logoIconLight" width="36" height="36" style="border-radius:9px"></canvas>
+        <span class="logo-name">ResumeForge</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn-big" onclick="downloadAll()">⬇ Download All Sizes</button>
+    <button class="btn-ghost" onclick="downloadSVG()">Download SVG Source</button>
+  </div>
+
+  <!-- HTML snippet -->
+  <div>
+    <div class="section-title">Add to Your HTML &#x3C;head&#x3E;</div>
+    <div class="code-block">
+      <span class="tag">&lt;link</span> <span class="attr">rel=</span><span class="val">"icon"</span> <span class="attr">type=</span><span class="val">"image/svg+xml"</span> <span class="attr">href=</span><span class="val">"favicon.svg"</span><span class="tag">&gt;</span><br/>
+      <span class="tag">&lt;link</span> <span class="attr">rel=</span><span class="val">"icon"</span> <span class="attr">type=</span><span class="val">"image/png"</span> <span class="attr">sizes=</span><span class="val">"32x32"</span> <span class="attr">href=</span><span class="val">"favicon-32.png"</span><span class="tag">&gt;</span><br/>
+      <span class="tag">&lt;link</span> <span class="attr">rel=</span><span class="val">"icon"</span> <span class="attr">type=</span><span class="val">"image/png"</span> <span class="attr">sizes=</span><span class="val">"16x16"</span> <span class="attr">href=</span><span class="val">"favicon-16.png"</span><span class="tag">&gt;</span><br/>
+      <span class="tag">&lt;link</span> <span class="attr">rel=</span><span class="val">"apple-touch-icon"</span> <span class="attr">sizes=</span><span class="val">"180x180"</span> <span class="attr">href=</span><span class="val">"favicon-180.png"</span><span class="tag">&gt;</span>
+    </div>
+  </div>
+
+  <p class="note">Place all favicon files in the same folder as your <code style="color:#38bdf8">index.html</code> and <code style="color:#38bdf8">landing.html</code>. The SVG favicon works in all modern browsers and scales perfectly at any size.</p>
+
+<script>
+  // ── SVG Source ──
+  const SVG_SOURCE = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1d4ed8"/>
+      <stop offset="100%" style="stop-color:#0ea5e9"/>
+    </linearGradient>
+    <linearGradient id="shineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.18)"/>
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bgGrad)"/>
+  <rect width="64" height="64" rx="14" fill="url(#shineGrad)"/>
+  <rect x="14" y="10" width="28" height="36" rx="3" fill="white" opacity="0.95"/>
+  <path d="M36 10 L42 10 L42 16 Z" fill="#bfdbfe" opacity="0.7"/>
+  <path d="M36 10 L36 16 L42 16" fill="none" stroke="#93c5fd" stroke-width="0.8"/>
+  <rect x="17" y="14" width="16" height="3" rx="1.5" fill="#2563eb" opacity="0.85"/>
+  <rect x="17" y="21" width="20" height="1.8" rx="0.9" fill="#94a3b8"/>
+  <rect x="17" y="25" width="16" height="1.8" rx="0.9" fill="#94a3b8"/>
+  <rect x="17" y="29" width="18" height="1.8" rx="0.9" fill="#94a3b8"/>
+  <rect x="17" y="33" width="7" height="5" rx="2" fill="#eff6ff"/>
+  <rect x="26" y="33" width="7" height="5" rx="2" fill="#eff6ff"/>
+  <circle cx="46" cy="46" r="12" fill="#0f172a" opacity="0.6"/>
+  <circle cx="46" cy="46" r="11" fill="#1e3a8a"/>
+  <path d="M49 37 L43 46 L46.5 46 L43 55 L50 44 L46.5 44 Z" fill="white" opacity="0.95"/>
+</svg>`;
+
+  // ── Draw logo onto canvas ──
+  function drawLogo(canvas, size) {
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    canvas.style.width = size + 'px';
+    canvas.style.height = size + 'px';
+    ctx.scale(dpr, dpr);
+
+    const s = size;
+    const r = s * 0.22; // border radius ratio
+
+    // Clip to rounded rect
+    ctx.beginPath();
+    ctx.moveTo(r, 0);
+    ctx.lineTo(s - r, 0);
+    ctx.quadraticCurveTo(s, 0, s, r);
+    ctx.lineTo(s, s - r);
+    ctx.quadraticCurveTo(s, s, s - r, s);
+    ctx.lineTo(r, s);
+    ctx.quadraticCurveTo(0, s, 0, s - r);
+    ctx.lineTo(0, r);
+    ctx.quadraticCurveTo(0, 0, r, 0);
+    ctx.closePath();
+    ctx.clip();
+
+    // Background gradient
+    const bg = ctx.createLinearGradient(0, 0, s, s);
+    bg.addColorStop(0, '#1d4ed8');
+    bg.addColorStop(1, '#0ea5e9');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, s, s);
+
+    // Shine overlay
+    const shine = ctx.createLinearGradient(0, 0, s, s);
+    shine.addColorStop(0, 'rgba(255,255,255,0.18)');
+    shine.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = shine;
+    ctx.fillRect(0, 0, s, s);
+
+    const sc = s / 64; // scale factor from 64px base
+
+    // Resume page
+    const px = 14*sc, py = 10*sc, pw = 28*sc, ph = 36*sc, pr = 3*sc;
+    roundRect(ctx, px, py, pw, ph, pr);
+    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.fill();
+
+    // Fold corner
+    ctx.beginPath();
+    ctx.moveTo(36*sc, 10*sc);
+    ctx.lineTo(42*sc, 10*sc);
+    ctx.lineTo(42*sc, 16*sc);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(191,219,254,0.7)';
+    ctx.fill();
+
+    // Header accent bar
+    roundRect(ctx, 17*sc, 14*sc, 16*sc, 3*sc, 1.5*sc);
+    ctx.fillStyle = 'rgba(37,99,235,0.85)';
+    ctx.fill();
+
+    // Content lines
+    ctx.fillStyle = '#94a3b8';
+    roundRect(ctx, 17*sc, 21*sc, 20*sc, 1.8*sc, 0.9*sc); ctx.fill();
+    roundRect(ctx, 17*sc, 25*sc, 16*sc, 1.8*sc, 0.9*sc); ctx.fill();
+    roundRect(ctx, 17*sc, 29*sc, 18*sc, 1.8*sc, 0.9*sc); ctx.fill();
+
+    // Skill tags
+    ctx.fillStyle = '#eff6ff';
+    roundRect(ctx, 17*sc, 33*sc, 7*sc, 5*sc, 2*sc); ctx.fill();
+    roundRect(ctx, 26*sc, 33*sc, 7*sc, 5*sc, 2*sc); ctx.fill();
+
+    // Badge circle shadow
+    ctx.beginPath();
+    ctx.arc(46*sc, 46*sc, 12*sc, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(15,23,42,0.6)';
+    ctx.fill();
+
+    // Badge circle
+    ctx.beginPath();
+    ctx.arc(46*sc, 46*sc, 11*sc, 0, Math.PI*2);
+    ctx.fillStyle = '#1e3a8a';
+    ctx.fill();
+
+    // Lightning bolt
+    ctx.beginPath();
+    ctx.moveTo(49*sc, 37*sc);
+    ctx.lineTo(43*sc, 46*sc);
+    ctx.lineTo(46.5*sc, 46*sc);
+    ctx.lineTo(43*sc, 55*sc);
+    ctx.lineTo(50*sc, 44*sc);
+    ctx.lineTo(46.5*sc, 44*sc);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.fill();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // ── Build size previews ──
+  const SIZES = [16, 32, 48, 64, 128, 180, 512];
+  const canvases = {};
+
+  function buildPreviews() {
+    const container = document.getElementById('previews');
+    SIZES.forEach(sz => {
+      const wrap = document.createElement('div');
+      wrap.className = 'preview-item';
+      wrap.style.setProperty('--r', Math.round(sz * 0.22));
+
+      const c = document.createElement('canvas');
+      drawLogo(c, sz > 128 ? 128 : sz === 16 ? 32 : sz); // display capped at 128
+      // But keep actual logical size for export
+      canvases[sz] = c;
+
+      // For display, use a sized canvas
+      const displayC = document.createElement('canvas');
+      const displaySize = sz <= 32 ? sz * 3 : sz <= 64 ? sz * 2 : Math.min(sz, 180);
+      drawLogo(displayC, displaySize);
+      displayC.style.width = displaySize + 'px';
+      displayC.style.height = displaySize + 'px';
+      displayC.style.borderRadius = Math.round(displaySize * 0.22) + 'px';
+      canvases[sz] = { displayCanvas: displayC, size: sz };
+
+      wrap.appendChild(displayC);
+
+      const label = document.createElement('div');
+      label.className = 'size-label';
+      label.textContent = `${sz}×${sz}`;
+      wrap.appendChild(label);
+
+      const btn = document.createElement('button');
+      btn.className = 'download-btn';
+      btn.textContent = 'Download';
+      btn.onclick = () => downloadSize(sz, displayC);
+      wrap.appendChild(btn);
+
+      container.appendChild(wrap);
+    });
+  }
+
+  function downloadSize(sz, displayCanvas) {
+    // Create exact-size canvas for export
+    const exportCanvas = document.createElement('canvas');
+    exportCanvas.width = sz;
+    exportCanvas.height = sz;
+    const ctx = exportCanvas.getContext('2d');
+    ctx.drawImage(displayCanvas, 0, 0, sz, sz);
+
+    const link = document.createElement('a');
+    link.download = sz === 180 ? 'favicon-180.png' : sz === 32 ? 'favicon-32.png' : sz === 16 ? 'favicon-16.png' : `resumeforge-logo-${sz}.png`;
+    link.href = exportCanvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function downloadAll() {
+    SIZES.forEach((sz, i) => {
+      setTimeout(() => {
+        const c = document.querySelectorAll('.preview-item canvas')[i];
+        downloadSize(sz, c);
+      }, i * 200);
+    });
+  }
+
+  function downloadSVG() {
+    const blob = new Blob([SVG_SOURCE], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = 'favicon.svg';
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── Render logo-in-context icons ──
+  function buildContextLogos() {
+    ['logoIconDark','logoIconLight'].forEach(id => {
+      const c = document.getElementById(id);
+      drawLogo(c, 36);
+    });
+  }
+
+  buildPreviews();
+  buildContextLogos();
+</script>
+</body>
+</html>
